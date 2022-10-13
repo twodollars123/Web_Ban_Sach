@@ -1,0 +1,75 @@
+@import "../../setting";
+.header_container {
+  height: $header_height;
+  margin: 0 190px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .header_logo {
+    height: $header_height;
+    img {
+      height: 100%;
+      border: none;
+      outline: none;
+      object-fit: cover;
+      overflow: hidden;
+    }
+  }
+  .header_search {
+    display: flex;
+    align-items: center;
+    input {
+      font-size: 16px;
+      width: 352px;
+      height: $input_height;
+      padding: 0 20px;
+      border: 1px solid $boder_color;
+      &:focus {
+        border: 1px solid $boder_color;
+        outline: none;
+      }
+    }
+    .header_btnSearch {
+      background-color: $blue;
+      //   height: $input_height;
+      border: none;
+      outline: none;
+      height: 40px;
+      cursor: pointer;
+      &:hover {
+        background-color: darken($blue, 10%);
+      }
+      .icon {
+        color: white;
+        font-size: 20px;
+        line-height: 38px;
+        padding: 0 20px;
+      }
+    }
+  }
+  .header_contact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    height: 50px;
+    p {
+      margin: 0;
+      color: $text_color;
+    }
+    .phone_number {
+      color: $blue;
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
+  .header_actions {
+    .icon {
+      color: black;
+      font-size: 24px;
+      line-height: 38px;
+      padding: 0 10px;
+      cursor: pointer;
+    }
+  }
+}

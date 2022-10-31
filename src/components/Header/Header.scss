@@ -1,13 +1,13 @@
-@import "../../setting";
+@import "../../style/_setting";
 .header_container {
   height: $header_height;
-  margin: 0 190px;
+  margin: 0 $margin_left;
   padding: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   .header_logo {
-    height: $header_height;
+    height: 100%;
     img {
       height: 100%;
       border: none;
@@ -64,6 +64,16 @@
     }
   }
   .header_actions {
+    display: flex;
+    align-items: center;
+    a {
+      color: #333;
+    }
+    .login_toggle {
+      background-color: inherit;
+      border: none;
+      outline: none;
+    }
     .icon {
       color: black;
       font-size: 24px;

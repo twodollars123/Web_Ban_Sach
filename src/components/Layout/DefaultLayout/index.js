@@ -1,10 +1,14 @@
 import Footer from "../../Footer/Footer";
 import Header from "../../Header/Header";
+import Menu from "../../Menu/Menu";
+import "./DefaultLayout.scss";
 
-function DefaultLayout() {
+function DefaultLayout({ children }) {
   return (
-    <div>
+    <div className="layout_container">
       <Header />
+      <Menu />
+      {children}
       <Footer />
     </div>
   );

@@ -1,0 +1,52 @@
+@import "../../style/_setting";
+
+.menu_container {
+  height: 46px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: $blue;
+
+  .menu_nav {
+    width: 1140px;
+    font-size: 18px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    display: flex;
+    .menu_nav_item {
+      line-height: 46px;
+      min-width: 160px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #fff;
+      }
+      &:hover .menu_subnav {
+        display: block;
+      }
+    }
+  }
+
+  .menu_subnav {
+    display: none;
+    position: absolute;
+    min-width: 200px;
+    width: auto;
+    top: 100%;
+    background-color: #fff;
+    .menu_subnav_item {
+      margin: 0 20px;
+      &:hover > a {
+        color: $blue;
+      }
+      a {
+        color: #333;
+        font-size: 16px;
+      }
+    }
+  }
+}

@@ -1,0 +1,76 @@
+@import "../../style/_setting";
+.footer_container {
+  // position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background-color: #222;
+
+  .footer_content {
+    margin: 0 $margin_left;
+    padding: 60px 10px 10px 10px;
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    .footer_social_media {
+      width: 33%;
+
+      img {
+        width: 220px;
+        border: none;
+        outline: none;
+        object-fit: cover;
+        overflow: hidden;
+        margin-bottom: 10px;
+      }
+      .icon {
+        font-size: 20px;
+        padding: 4px;
+        border: none;
+        outline: none;
+
+        margin-left: 10px;
+        text-align: center;
+        i {
+          width: 40px;
+          height: 40px;
+          border-radius: 40px;
+          background-color: $text_color;
+          line-height: 40px;
+          cursor: pointer;
+          &:hover {
+            color: $blue;
+          }
+        }
+      }
+    }
+  }
+  .footer_hot_link {
+    width: 33%;
+    padding: 0 40px;
+    h4 {
+      border-bottom: 1px solid $boder_color;
+    }
+    p {
+      cursor: pointer;
+      &:hover {
+        color: $blue;
+      }
+    }
+  }
+  .footer_contact {
+    width: 33%;
+    padding: 0 40px 0 0;
+    h4 {
+      border-bottom: 1px solid $boder_color;
+    }
+  }
+  .footer_copyright {
+    background-color: black;
+    color: #fff;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+  }
+}

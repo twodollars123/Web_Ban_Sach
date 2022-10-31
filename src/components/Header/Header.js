@@ -1,24 +1,20 @@
-import "./Header.scss";
 import { useEffect, useState } from "react";
-import DropDown from "../../common/DropDown";
-import { DropdownToggle } from "reactstrap";
+import {
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+  DropdownToggle,
+} from "reactstrap";
+import { Link } from "react-router-dom";
+import React from "react";
+import Tippy from "@tippyjs/react/headless";
 
-// const placeholderValue = ["Hỗ trợ sức khỏe", "Phụ kiện thể thao"];
+import "./Header.scss";
 
 function Header() {
-  // const [value, setValue] = useState();
-  // useEffect(() => {
-  //   let i = 0;
-  //   setInterval(() => {
-  //     if (i === placeholderValue.length) {
-  //       i = 0;
-  //     }
-  //     setValue(placeholderValue[i]);
-  //     i++;
-  //   }, 2000);
-  //   console.log(i);
-  // }, [value]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const toggle = () => setDropdownOpen(!dropdownOpen);
+  const [dropdownOpenCart, setDropdownOpenCart] = useState(false);
   return (
     <div className="header_container">
       <div className="header_logo">
@@ -38,18 +34,35 @@ function Header() {
         <p className="phone_number">094.1234.828</p>
       </div>
       <div className="header_actions">
-        <i
-          className="fa fa-user-o icon"
-          onMouseMove={() => setDropdownOpen(true)}
-          //onMouseOut={() => setDropdownOpen(false)}
-        />
+        <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+          <DropdownToggle className="login_toggle">
+            <i
+              className="fa fa-user-o icon"
+              onClick={() => setDropdownOpen(true)}
+            />
+          </DropdownToggle>
+          <DropdownMenu onClick={() => setDropdownOpen(false)}>
+            <DropdownItem>
+              <Link to="/dangnhap">Đăng nhập</Link>
+            </DropdownItem>
+            <DropdownItem>
+              <Link to="/dangky">Đăng ký</Link>
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
 
-        <i className="fa fa-shopping-bag icon" />
-        <DropDown
-          dropdownOpen={dropdownOpen}
-          setDropdownOpen={setDropdownOpen}
-          itemActions={["Đăng nhập", "Đăng ký"]}
-        />
+        <Dropdown isOpen={dropdownOpenCart}>
+          <DropdownToggle className="login_toggle">
+            <Link to="/giohang">
+              <i className="fa fa-shopping-bag icon" />
+            </Link>
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem>
+              <p>Không có sản phẩm nào</p>
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
       </div>
     </div>
   );

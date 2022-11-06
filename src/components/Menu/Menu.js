@@ -1,14 +1,26 @@
-import React, { useState } from "react";
-import { useStore, actions } from "../../store";
+import React, { useEffect, useState } from "react";
+
+import * as ApiServices from "../../ApiServices";
+// import { useStore, actions } from "../../store";
 import { Link } from "react-router-dom";
 import "./Menu.scss";
 
 function Nav({ data }) {
+  const [subnav, setSubnav] = useState([]);
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const result = await ApiServices.categories();
+      console.log("a", result);
+      setSubnav(result);
+    };
+    fetchApi();
+  }, []);
   return (
     <>
       {data &&
         data.map((item) => {
-          if (!item?.children) {
+          if (!item?.categories) {
             return (
               <li key={item.id} className="menu_nav_item">
                 <Link to={item.path}>{item.label}</Link>
@@ -19,7 +31,7 @@ function Nav({ data }) {
               <li key={item.id} className="menu_nav_item isChilren">
                 <Link to={item.path}>{item.label}</Link>
                 <ul className="menu_subnav">
-                  <SubNav data={item.children} />
+                  <SubNav data={subnav} />
                 </ul>
               </li>
             );
@@ -34,18 +46,18 @@ function SubNav({ data }) {
     <ul>
       {data &&
         data.map((item) => {
-          if (!item?.children) {
+          if (!item?.categories) {
             return (
               <li key={item.id} className="menu_subnav_item">
-                <Link to={item.path}>{item.label}</Link>
+                <Link to={item.path}>{item.name}</Link>
               </li>
             );
           } else {
             return (
               <li key={item.id} className="menu_subnav_item isChildren">
-                <Link to={item.path}>{item.label}</Link>
+                <Link to={item.path}>{item.name}</Link>
 
-                <SubNav data={item.children} />
+                {/* <SubNav data={} /> */}
               </li>
             );
           }
@@ -55,13 +67,23 @@ function SubNav({ data }) {
 }
 
 function Menu() {
-  const [state] = useStore();
-  const { menuData } = state;
+  // const [state] = useStore();
+  // const { menuData } = state;
+  const [nav, setNav] = useState([]);
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const result = await ApiServices.menus();
+      console.log("result", result);
+      setNav(result);
+    };
+    fetchApi();
+  }, []);
 
   return (
     <div className="menu_container">
       <ul className="menu_nav">
-        <Nav data={menuData} />
+        <Nav data={nav} />
       </ul>
     </div>
   );

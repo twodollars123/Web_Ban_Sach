@@ -1,13 +1,16 @@
 import { useStore, actions } from "../../store";
+import Modal from "../Modal/Modal";
 
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 function DSDungCuHocTap() {
   const [state] = useStore();
   const { dataBag } = state;
+
+  const [showModal, setShowModal] = useState(false);
   return (
     <div className="listcomic__container">
-      {}
       <div className="listcomic__top">
         <Link to="#danhsachtruyentranh" className="listcomic__titlelink">
           Dụng cụ học tập
@@ -29,7 +32,7 @@ function DSDungCuHocTap() {
                       <span>
                         <i className="fa fa-shopping-basket" />
                       </span>
-                      <span>
+                      <span onClick={() => setShowModal(true)}>
                         <i className="fa fa-shopping-cart" />
                       </span>
                     </div>
@@ -45,6 +48,7 @@ function DSDungCuHocTap() {
             );
           })}
       </div>
+      {showModal && <Modal setOpenModal={setShowModal} />}
     </div>
   );
 }

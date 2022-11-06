@@ -37,7 +37,7 @@
     background-color: #fff;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 20px;
     padding: 10px;
     .listcontent__content__item {
       display: flex;
@@ -48,7 +48,6 @@
       position: relative;
 
       .listcontent__content__item__top {
-        width: 80%;
         margin-bottom: 10px;
         padding-top: 10px;
         .listcontent__content__item__img {
@@ -61,13 +60,14 @@
         }
       }
       .listcontent__content__item__title {
+        width: 100%;
         color: #333;
         font-size: 13px;
-        letter-spacing: 0.01em;
+        // letter-spacing: 0.01em;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        align-self: start;
+        text-align: center;
       }
       .listcontent__content__item__bottom {
         color: $blue;

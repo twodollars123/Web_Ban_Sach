@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Dropdown,
   DropdownMenu,
@@ -7,7 +7,6 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import React from "react";
-import Tippy from "@tippyjs/react/headless";
 
 import "./Header.scss";
 

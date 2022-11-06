@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import { useStore, actions } from "../../store";
+import Modal from "../Modal/Modal";
+import * as ApiServices from "../../ApiServices";
 
 import "./DSTruyenTranh.scss";
 
@@ -8,13 +11,21 @@ function DSTruyenTranh() {
   const [state, dispatch] = useStore();
   const { dataComic } = state;
 
+  const [showModal, setShowModal] = useState(false);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const result = await ApiServices.products();
+      setData(result);
+    };
+    fetchApi();
+  }, []);
+
   const getItemDT = (data) => {
-    let id = data;
-    let dataItem = dataComic.filter((item) => item.id === id);
-    console.log("a", dataItem[0]);
-    dispatch(actions.addCartItem(dataItem[0]));
+    setShowModal(true);
+    dispatch(actions.addCartItem(data));
   };
-  console.log("b", state.dataCartItems);
 
   return (
     <div className="listcomic__container">
@@ -24,14 +35,14 @@ function DSTruyenTranh() {
         </Link>
       </div>
       <div className="listcontent__content">
-        {dataComic &&
-          dataComic.map((comic) => {
+        {data &&
+          data.map((comic) => {
             return (
-              <Link to={comic.path} key={comic.id}>
+              <Link key={comic.id}>
                 <div className="listcontent__content__item">
                   <div className="listcontent__content__item__top">
                     <img
-                      src={`${comic.img}`}
+                      src={`${comic.image}`}
                       alt=""
                       className="listcontent__content__item__img"
                     />
@@ -39,7 +50,7 @@ function DSTruyenTranh() {
                       <span>
                         <i className="fa fa-shopping-basket" />
                       </span>
-                      <span onClick={() => getItemDT(comic.id)}>
+                      <span onClick={() => getItemDT(comic)}>
                         <i className="fa fa-shopping-cart" />
                       </span>
                     </div>
@@ -48,13 +59,17 @@ function DSTruyenTranh() {
                     {comic.name}
                   </p>
                   <p className="listcontent__content__item__bottom">
-                    {comic.price}
+                    {comic.price.toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    })}
                   </p>
                 </div>
               </Link>
             );
           })}
       </div>
+      {showModal && <Modal setOpenModal={setShowModal} />}
     </div>
   );
 }

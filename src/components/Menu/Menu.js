@@ -4,86 +4,60 @@ import * as ApiServices from "../../ApiServices";
 // import { useStore, actions } from "../../store";
 import { Link } from "react-router-dom";
 import "./Menu.scss";
-
-function Nav({ data }) {
-  const [subnav, setSubnav] = useState([]);
-
-  useEffect(() => {
-    const fetchApi = async () => {
-      const result = await ApiServices.categories();
-      console.log("a", result);
-      setSubnav(result);
-    };
-    fetchApi();
-  }, []);
-  return (
-    <>
-      {data &&
-        data.map((item) => {
-          if (!item?.categories) {
-            return (
-              <li key={item.id} className="menu_nav_item">
-                <Link to={item.path}>{item.label}</Link>
-              </li>
-            );
-          } else {
-            return (
-              <li key={item.id} className="menu_nav_item isChilren">
-                <Link to={item.path}>{item.label}</Link>
-                <ul className="menu_subnav">
-                  <SubNav data={subnav} />
-                </ul>
-              </li>
-            );
-          }
-        })}
-    </>
-  );
-}
-
-function SubNav({ data }) {
-  return (
-    <ul>
-      {data &&
-        data.map((item) => {
-          if (!item?.categories) {
-            return (
-              <li key={item.id} className="menu_subnav_item">
-                <Link to={item.path}>{item.name}</Link>
-              </li>
-            );
-          } else {
-            return (
-              <li key={item.id} className="menu_subnav_item isChildren">
-                <Link to={item.path}>{item.name}</Link>
-
-                {/* <SubNav data={} /> */}
-              </li>
-            );
-          }
-        })}
-    </ul>
-  );
-}
+import { useStore } from "../../store";
 
 function Menu() {
-  // const [state] = useStore();
-  // const { menuData } = state;
-  const [nav, setNav] = useState([]);
+  const [state] = useStore();
+  const menus = state.menus;
+  const categories = state.categories;
+  const findCategoryByID = (id) => {
+    return categories.find((category) => category?._id === id);
+  };
 
-  useEffect(() => {
-    const fetchApi = async () => {
-      const result = await ApiServices.menus();
-      console.log("result", result);
-      setNav(result);
-    };
-    fetchApi();
-  }, []);
+  const connectMenuToCategory = (menu) => {
+    if (menu.categories.length > 0) {
+      return (
+        <li key={menu?._id} className={"menu_nav_item"}>
+          {menu?.label}
+          <ul className="menu_subnav">
+            {menu.categories.map((category) =>
+              treeCategory(findCategoryByID(category._id))
+            )}
+          </ul>
+        </li>
+      );
+    } else {
+      return (
+        <li key={menu?._id} className={"menu_nav_item"}>
+          {menu.label}
+        </li>
+      );
+    }
+  };
+
+  const treeCategory = (category) => {
+    if (category?.childrens) {
+      return (
+        <li key={category._id} className="menu_subnav_item">
+          <Link to={category.path}>{category.name}</Link>
+          <ul className="">
+            {category.childrens.map((item) => treeCategory(item))}
+          </ul>
+        </li>
+      );
+    } else {
+      return (
+        <li key={category._id} className="menu_subnav_item">
+          <Link to={category.path}>{category.name}</Link>
+        </li>
+      );
+    }
+  };
 
   return (
     <div className="menu_container">
       <ul className="menu_nav">
-        <Nav data={nav} />
+        {menus.map((menu) => connectMenuToCategory(menu))}
       </ul>
     </div>
   );

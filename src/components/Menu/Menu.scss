@@ -15,6 +15,7 @@
     align-items: center;
     display: flex;
     .menu_nav_item {
+      cursor: pointer;
       line-height: 46px;
       min-width: 160px;
       display: flex;
@@ -36,16 +37,14 @@
     position: absolute;
     min-width: 200px;
     width: auto;
+    height: auto;
     top: 100%;
     background-color: #fff;
     .menu_subnav_item {
       margin: 0 20px;
-      &:hover > a {
-        color: $blue;
-      }
-      a {
+      display: block;
+      a{
         color: #333;
-        font-size: 16px;
       }
     }
   }

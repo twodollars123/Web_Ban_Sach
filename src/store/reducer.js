@@ -4,13 +4,22 @@
 // const host = "http://localhost:3000/";
 
 // const initState = { todos: [], todo: "" };
+import { categories } from "../ApiServices";
 import {
   ADD_A_NEW_ACCOUNT,
   ADD_CART_ITEM,
   REMOVE_A_CART_ITEM,
+  SET_AUTH,
+  SET_LOADING,
+  SET_CATEGORIES,
+  SET_MENUS,
 } from "./Constains";
 
 const initState = {
+  isAuth: false,
+  isLoading: true,
+  menus: [],
+  categories: [],
   menuData: [
     { id: 1, label: "Trang chủ", path: "/" },
     { id: 2, label: "Giới thiệu", path: "/gioithieu" },
@@ -217,6 +226,26 @@ const initState = {
 
 function reducer(state, action) {
   switch (action.type) {
+    case SET_AUTH:
+      return {
+        ...state,
+        isAuth: action.payload,
+      };
+    case SET_LOADING:
+      return {
+        ...state,
+        isLoading: action.payload,
+      };
+    case SET_MENUS:
+      return {
+        ...state,
+        menus: action.payload,
+      };
+    case SET_CATEGORIES:
+      return {
+        ...state,
+        categories: action.payload,
+      };
     // case SET_TODO_INPUT:
     //   return {
     //     ...state,

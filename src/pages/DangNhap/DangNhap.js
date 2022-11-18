@@ -1,41 +1,45 @@
 import { useEffect, useState } from "react";
-import { Link, redirect } from "react-router-dom";
-import { useStore, actions } from "../../store";
+import { Link, redirect, useNavigate } from "react-router-dom";
+import * as ApiServices from "../../ApiServices";
 import "./DangNhap.scss";
+import notify from "../../ultis/notify";
+import { useStore,actions } from "../../store";
 
 function DangNhap() {
-  const [state, dispath] = useStore();
-  const { accountUser } = state;
+  const navigate = useNavigate();
+  const [emailUser, setEmailUser] = useState(null);
+  const [passUser, setPassUser] = useState(null);
 
-  const [emailUser, setEmailUser] = useState();
-  const [passUser, setPassUser] = useState();
-  const [loginStatus, setLoginStatus] = useState(false);
+  const [state,dispatch] = useStore()
 
-  const handleLogin = () => {
-    let newAccount = {
-      emailUser,
-      passUser,
-    };
-    let newAccountUsers = [...accountUser];
-    console.log("newAccountUsers", newAccountUsers);
-    let resultFind = newAccountUsers.find(
-      (item) =>
-        item.email === newAccount.emailUser &&
-        item.password === newAccount.passUser
-    );
-    if (resultFind) {
-      console.log("resultFind", resultFind);
-      setLoginStatus(true);
+  const handleLogin = async () => {
+    if (emailUser && passUser) {
+      const data = {
+        identifier: emailUser,
+        password: passUser,
+      };
+      await ApiServices.login(data)
+        .then(async(res) => {
+          if(res?.jwt&&res?.user){
+            localStorage.setItem('token',res.jwt);
+            localStorage.setItem('user',res.user);
+            dispatch(actions.setAuth(true));
+            await notify("success", "Welcome");
+            setTimeout(() => {
+              navigate("../");
+            }, 3000);
+          }else{
+            notify("error", "Email or Password was wrong");
+          }
+        })
+        .catch((err) => {
+          notify("error", "Something was wrong");
+        });
     } else {
-      console.log("khong tim thay");
+      notify("error", "You need fill all fields");
     }
   };
 
-  // useEffect(() => {
-  //   if (loginStatus) {
-  //     return redirect("/");
-  //   }
-  // }, [loginStatus]);
   return (
     <>
       {/* {loginStatus ? <>{redirect()}</>} */}

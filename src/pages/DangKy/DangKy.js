@@ -1,28 +1,36 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./DangKy.scss";
-import { v4 as uuidv4 } from "uuid";
-import { useStore, actions } from "../../store";
+import * as ApiServices from "../../ApiServices";
+import notify from "../../ultis/notify";
 
 function Dangky() {
-  const [state, dispath] = useStore();
-  const { accountUser } = state;
+  const navigate = useNavigate();
+  const [name, setName] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [pass, setPass] = useState(null);
+  const [repass, setRePass] = useState(null);
 
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [pass, setPass] = useState();
-
-  const handleRegister = () => {
-    let newAccount = {
-      id: uuidv4(),
-      name: name,
-      email: email,
-      password: pass,
-    };
-    let newAccountUsers = [...accountUser];
-    newAccountUsers.push(newAccount);
-
-    dispath(actions.addANewAccount(newAccountUsers));
+  const handleRegister = async () => {
+    if (repass === pass && email && name) {
+      let newAccount = {
+        name: name,
+        email: email,
+        password: pass,
+      };
+      await ApiServices.register(newAccount)
+        .then(() => {
+          notify("success", "Success");
+          setTimeout(() => {
+            navigate("../dangnhap");
+          }, 3000);
+        })
+        .catch((err) => {
+          console.log("err", err);
+        });
+    } else {
+      notify("error", "Something was wrong!");
+    }
   };
   return (
     <div className="dangky_main">
@@ -84,11 +92,12 @@ function Dangky() {
             id="repassword"
             name="repassword"
             placeholder="Nhập lại mật khẩu"
+            onChange={(e) => setRePass(e.target.value)}
           />
           <span className="form-message"></span>
         </div>
 
-        <button className="form-submit" onClick={handleRegister}>
+        <button className="form-submit" type="button" onClick={handleRegister}>
           Đăng kí
         </button>
         <p className="todangnhap">

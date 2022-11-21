@@ -3,23 +3,36 @@ import { useEffect, useState } from "react";
 
 import { useStore, actions } from "../../store";
 import Modal from "../Modal/Modal";
+import {
+  CardSubtitle,
+  CardTitle,
+  CardBody,
+  Card,
+  Row,
+  Col,
+  Container,
+  Spinner,
+} from "reactstrap";
 import * as ApiServices from "../../ApiServices";
+import convertVND from "../../ultis/convertVND";
 
 import "./DSTruyenTranh.scss";
 
 function DSTruyenTranh() {
+  const [loading, setLoading] = useState(true);
   const [state, dispatch] = useStore();
-  const { dataComic } = state;
 
   const [showModal, setShowModal] = useState(false);
   const [data, setData] = useState([]);
 
+  const fetchData = async () => {
+    const data = await ApiServices.productsByNameCategory("Sách thiếu nhi");
+    setLoading(false);
+    setData(data.data);
+  };
+
   useEffect(() => {
-    const fetchApi = async () => {
-      const result = await ApiServices.products();
-      setData(result);
-    };
-    fetchApi();
+    fetchData();
   }, []);
 
   const getItemDT = (data) => {
@@ -28,49 +41,48 @@ function DSTruyenTranh() {
   };
 
   return (
-    <div className="listcomic__container">
+    <Container fluid="md" className="listcomic__container">
       <div className="listcomic__top">
         <Link to="#danhsachtruyentranh" className="listcomic__titlelink">
           Truyện tranh
         </Link>
       </div>
-      <div className="listcontent__content">
-        {data &&
-          data.map((comic) => {
-            return (
-              <Link key={comic.id}>
-                <div className="listcontent__content__item">
-                  <div className="listcontent__content__item__top">
-                    <img
-                      src={`${comic.image}`}
-                      alt=""
-                      className="listcontent__content__item__img"
-                    />
-                    <div className="listcomic__action">
-                      <span>
-                        <i className="fa fa-shopping-basket" />
-                      </span>
-                      <span onClick={() => getItemDT(comic)}>
-                        <i className="fa fa-shopping-cart" />
-                      </span>
-                    </div>
-                  </div>
-                  <p className="listcontent__content__item__title">
-                    {comic.name}
-                  </p>
-                  <p className="listcontent__content__item__bottom">
-                    {comic.price.toLocaleString("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    })}
-                  </p>
-                </div>
-              </Link>
-            );
-          })}
+      <div className="">
+        {loading ? (
+          <Spinner></Spinner>
+        ) : (
+          <Row xs="1" sm="3" md="5" lg="5" xl="5" xxl="5" className="g-2">
+            {data &&
+              data.map((prd) => (
+                <Col key={prd.id}>
+                  <Link to={"#"}>
+                    <Card className="card__prd">
+                      <img alt="Sample" src={prd.image} />
+                      <CardBody>
+                        <CardTitle tag="h6" className="card__title">
+                          {prd.name}
+                        </CardTitle>
+                        <CardSubtitle className="mb-2 text-muted" tag="h6">
+                          {convertVND(prd.price)}
+                        </CardSubtitle>
+                        <div className="card__action">
+                          <span>
+                            <i className="fa fa-shopping-basket" />
+                          </span>
+                          <span onClick={() => getItemDT(prd)}>
+                            <i className="fa fa-shopping-cart" />
+                          </span>
+                        </div>
+                      </CardBody>
+                    </Card>
+                  </Link>
+                </Col>
+              ))}
+          </Row>
+        )}
       </div>
-      {showModal && <Modal setOpenModal={setShowModal} />}
-    </div>
+    {showModal && <Modal setOpenModal={setShowModal} />}
+    </Container>
   );
 }
 

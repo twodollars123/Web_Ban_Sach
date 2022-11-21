@@ -4,7 +4,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import * as ApiServices from "../../ApiServices/index";
 import { useState, useEffect } from "react";
 
-import { Spinner, Container, Row, Col, Button } from "reactstrap";
+import {
+  Spinner,
+  Container,
+  Row,
+  Col,
+  Button,
+  Input,
+  InputGroup,
+  InputGroupText,
+} from "reactstrap";
 import convertVND from "../../ultis/convertVND";
 import { useStore, actions } from "../../store";
 
@@ -60,11 +69,11 @@ function Detail() {
     <Spinner></Spinner>
   ) : (
     <div>
-      <Container fluid="md">
+      <Container fluid="md" className="my-5 detail__wrapper">
         <Row xs="1" sm="1" md="2" lg="2" xl="2" xxl="2">
-          <Col className="bg-light border col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8 col-xxl-8">
+          <Col className="bg-light border col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-9 col-xxl-9">
             <Row xs="1" sm="1" md="2" lg="2" xl="2" xxl="2" className="">
-              <Col className="">
+              <Col className="img__prd">
                 <img alt="Sample" src={data?.image} />
               </Col>
               <Col>
@@ -73,41 +82,49 @@ function Detail() {
                 <p>Lượt mua: {data?.sold}</p>
                 <p>Kho: {data?.quantity}</p>
                 <p>
-                  Giá :{" "}
+                  Giá :
                   <span className="price">
                     {convertVND(parseInt(data?.price))}
                   </span>
                 </p>
-                <p>
-                  <Button onClick={() => changeQuantity("minus")}>-</Button>
-                  <input
-                    type={"number"}
-                    value={quantity}
-                    min={1}
-                    max={99}
-                  ></input>
-                  <Button onClick={() => changeQuantity("add")}>+</Button>
+                <p className="quantity__wrapper">
+                  <InputGroup>
+                    <InputGroupText
+                      type="button"
+                      onClick={() => changeQuantity("minus")}
+                    >
+                      -
+                    </InputGroupText>
+                    <Input value={quantity} min={1} max={99} />
+                    <InputGroupText
+                      type="button"
+                      onClick={() => changeQuantity("add")}
+                    >
+                      +
+                    </InputGroupText>
+                  </InputGroup>
                 </p>
-                <p>
+                <p className="addToCart__btn">
                   {parseInt(data?.quantity) === 0 ? (
                     <Button className="addToCart__btn" color="primary">
                       HẾT HÀNG
                     </Button>
                   ) : (
-                    <Button
-                      className="addToCart__btn"
-                      color="primary"
-                      onClick={addToCart}
-                    >
+                    <Button color="primary" onClick={addToCart}>
                       ĐẶT HÀNG
                     </Button>
                   )}
                 </p>
               </Col>
             </Row>
+            <Row className="description__wrapper">
+              <h4 className="bg-secondary p-2 text-light m-auto">Mô tả</h4>
+              <p>{data?.description}</p>
+            </Row>
           </Col>
-          <Col className="bg-light border col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
-            Column
+          <Col className="bg-light border col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 col-xxl-3">
+            <h5 className="text-light bg-warning p-2">CÓ THỂ BẠN QUAN TÂM</h5>
+            <p>Có thể bạn quan tâm! Đang được cập nhật nội dung.</p>
           </Col>
         </Row>
       </Container>

@@ -1,0 +1,29 @@
+.detail__wrapper{
+    .img__prd{
+        img{
+            width: 100%;
+        }
+    }
+    .quantity__wrapper{
+        width: 25%;
+    }
+    .addToCart__btn{
+        button{
+            width: 250px;
+            text-align: center;
+        }
+    }
+    .description__wrapper{
+        margin-top: 40px;
+        h4{
+            width: 30%;
+            border-radius: 5px;
+            text-align: center;
+        }
+        p{
+            margin-top: 20px;
+            font-size: medium;
+            line-height: 30px;
+        }
+    }
+}

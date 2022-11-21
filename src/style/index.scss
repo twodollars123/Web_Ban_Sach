@@ -1,4 +1,4 @@
-@import "./_setting";
+@import "./setting";
 
 * {
   padding: 0;
@@ -19,3 +19,71 @@ a {
     color: #fff;
   }
 }
+
+.card__prd,
+.card {
+  width: 100%;
+  border-radius: 0px !important;
+  border: 0 !important;
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+  &:hover {
+    transition: ease-in-out 0.3s;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+  .card__title {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    color: #333;
+  }
+  .card__action {
+    position: absolute;
+    right: 20px;
+    bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: 0.5s ease-in-out;
+    left: 100%;
+    opacity: 0;
+    span {
+      height: 40px;
+      width: 40px;
+      margin-bottom: 10px;
+      background-color: #fff;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 40px;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      transition: 0.2s;
+      &:hover {
+        background-color: $blue;
+        color: #fff;
+      }
+    }
+  }
+  &:hover .card__action {
+    animation: 0.3s ease-in-out fadeInRight;
+    opacity: 1;
+    left: 60%;
+    transition: 0.5s ease-in-out alternate;
+  }
+  @keyframes fadeInRight {
+    from {
+      left: 100%;
+      opacity: 0;
+    }
+  
+    to {
+      left: 60%;
+      opacity: 1;
+    }
+  }
+}
+

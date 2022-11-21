@@ -44,5 +44,28 @@ export const products = async () => {
   }
 };
 
+export const bestseller = async (page,pageSize) => {
+  try {
+    page = page || 1;
+    pageSize = pageSize || 10;
+    const res = await request.get(`productsBestSeller?&page=${page}&pageSize=${pageSize}`);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const productsByNameCategory = async (name,page,pageSize) => {
+  try {
+    name = name || 'Kho sách'
+    page = page || 1;
+    pageSize = pageSize || 10;
+    const res = await request.get(`productsByCategory?category=${name}&page=${page}=2&pageSize=${pageSize}`);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 
 

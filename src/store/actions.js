@@ -8,11 +8,14 @@
 import {
   ADD_A_NEW_ACCOUNT,
   ADD_CART_ITEM,
+  SET_CART_ITEM,
   REMOVE_A_CART_ITEM,
   SET_AUTH,
   SET_LOADING,
   SET_CATEGORIES,
-  SET_MENUS
+  SET_MENUS,
+  SET_SHOW_MODAL,
+  SET_DATA_MODAL,
 } from "./Constains";
 
 export const addANewAccount = (payload) => ({
@@ -22,6 +25,11 @@ export const addANewAccount = (payload) => ({
 
 export const addCartItem = (payload) => ({
   type: ADD_CART_ITEM,
+  payload,
+});
+
+export const setCartItem = (payload) => ({
+  type: SET_CART_ITEM,
   payload,
 });
 
@@ -39,6 +47,16 @@ export const setLoading = (payload) => ({
   type: SET_LOADING,
   payload,
 });
+
+export const setShowModal = (payload) => ({
+  type: SET_SHOW_MODAL,
+  payload,
+});
+
+export const setDataModal = (payload) => ({
+  type:SET_DATA_MODAL,
+  payload
+})
 
 export const setMenus = (payload) => ({
   type: SET_MENUS,

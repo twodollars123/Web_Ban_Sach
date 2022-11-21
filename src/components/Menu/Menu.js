@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import * as ApiServices from "../../ApiServices";
 // import { useStore, actions } from "../../store";
 import { Link } from "react-router-dom";
 import "./Menu.scss";

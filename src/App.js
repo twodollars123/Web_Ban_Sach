@@ -3,13 +3,19 @@ import DefaultLayout from "./components/Layout/DefaultLayout";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { publicRoutes } from "./routes";
 import * as ApiServices from "./ApiServices";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
+import Modal from './components/Modal/Modal'
 // Toast
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useStore, actions } from "./store";
+import ModalCustom from "./components/Modal/Modal";
+
 
 function App() {
+
+
+
   const [state, dispatch] = useStore();
   const fetchApi = async () => {
     const menus = await ApiServices.menus();
@@ -54,6 +60,9 @@ function App() {
         </div>
       </Router>
       <ToastContainer />
+      {console.log('state.showModal',state.showModal)}
+      {state.showModal ? <ModalCustom/> : null} 
+      
     </>
   );
 }

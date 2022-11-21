@@ -13,7 +13,7 @@ import {
 } from "./Constains";
 
 const initState = {
-  isAuth: false,
+  isAuth: localStorage.getItem("token")?true:false,
   isLoading: true,
   showModal:false,
   dataModal:{},

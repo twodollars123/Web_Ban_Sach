@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./SanPhamBanChay.scss";
-
+import { useStore, actions } from "../../store";
 import {
   CardSubtitle,
   CardTitle,
@@ -16,6 +16,7 @@ import * as ApiServices from "../../ApiServices";
 import convertVND from "../../ultis/convertVND";
 
 function SanPhamBanChay() {
+  const [state, dispatch] = useStore();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const fetchData = async () => {
@@ -27,7 +28,13 @@ function SanPhamBanChay() {
   useEffect(() => {
     fetchData();
   }, []);
-
+  const getItemDT = async(data) => {
+    await dispatch(actions.setShowModal(true));
+    await dispatch(actions.setDataModal(data));
+    await dispatch(
+      actions.addCartItem({ ...data, quantity: 1, totalPrice: data.price })
+    );
+  };
   return (
     <Container fluid="md" className="bestseller__container">
       <Link to="#" className="bestseller__title__link">
@@ -41,7 +48,8 @@ function SanPhamBanChay() {
             {data &&
               data.map((prd) => (
                 <Col key={prd.id}>
-                  <Link to={'#'}>
+                  <Link to={`#`}>
+                  {/* ../product/${prd._id} */}
                     <Card className="card__prd">
                       <img alt="Sample" src={prd.image} />
                       <CardBody>
@@ -51,15 +59,16 @@ function SanPhamBanChay() {
                         <CardSubtitle className="mb-2 text-muted" tag="h6">
                           {convertVND(prd.price)}
                         </CardSubtitle>
-                        <div className="card__action">
+                        
+                      </CardBody>
+                      <div className="card__action">
                           <span>
                             <i className="fa fa-shopping-basket" />
                           </span>
-                          <span>
+                          <span onClick={() => getItemDT(prd)}>
                             <i className="fa fa-shopping-cart" />
                           </span>
                         </div>
-                      </CardBody>
                     </Card>
                   </Link>
                 </Col>

@@ -63,7 +63,7 @@ function reducer(state, action) {
       let dataCartItems = [...state.dataCartItems]
       dataCartItems.map((item) => {
         if (item._id === action.payload._id) {
-          item.quantity = parseInt(item.quantity + 1);
+          item.quantity = parseInt(item.quantity + action.payload.quantity);
           item.totalPrice = parseInt(item.price) * parseInt(item.quantity);
           check = false;
         }
@@ -77,6 +77,7 @@ function reducer(state, action) {
             "dataCart",
             JSON.stringify([...state.dataCartItems])
           );
+          console.log(...state.dataCartItems)
       return {
         ...state,
         dataCartItems: check ? [...state.dataCartItems, action.payload] : JSON.parse(localStorage.getItem("dataCart")),

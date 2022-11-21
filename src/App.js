@@ -4,18 +4,14 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { publicRoutes } from "./routes";
 import * as ApiServices from "./ApiServices";
 import { Fragment, useEffect, useState } from "react";
-import Modal from './components/Modal/Modal'
+import Modal from "./components/Modal/Modal";
 // Toast
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useStore, actions } from "./store";
 import ModalCustom from "./components/Modal/Modal";
 
-
 function App() {
-
-
-
   const [state, dispatch] = useStore();
   const fetchApi = async () => {
     const menus = await ApiServices.menus();
@@ -38,6 +34,7 @@ function App() {
             {publicRoutes.map((route, index) => {
               // Page ở đây coi như một component
               const Page = route.component;
+              const param = route?.param || null;
               let Layout = DefaultLayout;
               if (route.layout) {
                 Layout = route.layout;
@@ -53,16 +50,25 @@ function App() {
                       <Page />
                     </Layout>
                   }
-                />
+                >
+                  {param && (
+                    <Route
+                      path={`:${param}`}
+                      element={
+                        <Layout>
+                          <Page />
+                        </Layout>
+                      }
+                    />
+                  )}
+                </Route>
               );
             })}
           </Routes>
         </div>
       </Router>
       <ToastContainer />
-      {console.log('state.showModal',state.showModal)}
-      {state.showModal ? <ModalCustom/> : null} 
-      
+      {state.showModal ? <ModalCustom /> : null}
     </>
   );
 }

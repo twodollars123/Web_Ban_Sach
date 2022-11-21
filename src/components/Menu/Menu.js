@@ -28,7 +28,7 @@ function Menu() {
     } else {
       return (
         <li key={menu?._id} className={"menu_nav_item"}>
-          {menu.label}
+          <Link to={menu.path}>{menu.label}</Link>
         </li>
       );
     }
@@ -38,7 +38,7 @@ function Menu() {
     if (category?.childrens) {
       return (
         <li key={category._id} className="menu_subnav_item">
-          <Link to={category.path}>{category.name}</Link>
+          <Link to={'../category/' + category._id}>{category.name}</Link>
           <ul className="">
             {category.childrens.map((item) => treeCategory(item))}
           </ul>
@@ -47,7 +47,7 @@ function Menu() {
     } else {
       return (
         <li key={category._id} className="menu_subnav_item">
-          <Link to={category.path}>{category.name}</Link>
+          <Link to={'../category/' + category._id}>{category.name}</Link>
         </li>
       );
     }

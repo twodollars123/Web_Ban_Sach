@@ -55,7 +55,7 @@ function DSTruyenTranh() {
             {data &&
               data.map((prd) => (
                 <Col key={prd.id}>
-                  <Link to={"#"}>
+                  <Link to={`#`}>
                     <Card className="card__prd">
                       <img alt="Sample" src={prd.image} />
                       <CardBody>

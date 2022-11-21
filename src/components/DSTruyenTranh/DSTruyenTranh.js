@@ -22,7 +22,6 @@ function DSTruyenTranh() {
   const [loading, setLoading] = useState(true);
   const [state, dispatch] = useStore();
 
-  const [showModal, setShowModal] = useState(false);
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
@@ -34,12 +33,13 @@ function DSTruyenTranh() {
   useEffect(() => {
     fetchData();
   }, []);
-
-  const getItemDT = (data) => {
-    setShowModal(true);
-    dispatch(actions.addCartItem(data));
+  const getItemDT = async(data) => {
+    await dispatch(actions.setShowModal(true));
+    await dispatch(actions.setDataModal(data));
+    await dispatch(
+      actions.addCartItem({ ...data, quantity: 1, totalPrice: data.price })
+    );
   };
-
   return (
     <Container fluid="md" className="listcomic__container">
       <div className="listcomic__top">
@@ -81,7 +81,6 @@ function DSTruyenTranh() {
           </Row>
         )}
       </div>
-    {showModal && <Modal setOpenModal={setShowModal} />}
     </Container>
   );
 }

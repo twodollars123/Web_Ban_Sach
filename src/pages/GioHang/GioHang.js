@@ -1,9 +1,12 @@
+import {useEffect, useState} from 'react';
 import "./GioHang.scss";
 import { useStore, actions } from "../../store";
+import convertVND from '../../ultis/convertVND';
 
 function GioHang() {
   const [state, dispatch] = useStore();
   const { dataCartItems } = state;
+  const [data, setData] = useState(dataCartItems)
 
   const handleRemoveCartItem = (itemId) => {
     const newDataCartItems = [...dataCartItems];
@@ -11,18 +14,45 @@ function GioHang() {
     const index = newDataCartItems.indexOf(removeItem[0]);
     newDataCartItems.splice(index, 1);
     dispatch(actions.removeCartItem(newDataCartItems));
+    setData(newDataCartItems);
   };
 
   const calculatePrice = () => {
     let total = 0;
     dataCartItems.map((item) => {
-      let a = Number(item.price);
+      let a = Number(item.totalPrice);
       total += a;
     });
-
-    console.log("total", total);
     return total;
   };
+
+  const changeQuantity = (id,mode) => {
+    switch(mode){
+      case 'minus' :
+        dataCartItems.map((item) => {
+          if(item.id === id){
+            if(!(item.quantity == 1)){
+              item.quantity = parseInt(item.quantity) - 1;
+              item.totalPrice = parseInt(item.quantity) * parseInt(item.price);
+            }
+          }
+        })
+        break;
+      case 'add' :
+        dataCartItems.map((item) => {
+          if(item.id === id){
+            item.quantity = parseInt(item.quantity) + 1;
+            item.totalPrice = parseInt(item.quantity) * parseInt(item.price);
+          }
+        })
+        break;
+    }
+    setData(dataCartItems)
+    dispatch(actions.setCartItem(dataCartItems))
+  }
+  useEffect(() => {
+  }, [dataCartItems])
+  
   return (
     <div className="cart__container">
       <div className="cart__content">
@@ -30,13 +60,13 @@ function GioHang() {
           <h3>Giỏ hàng</h3>
         </div>
         <div className="cart__content__main">
-          {dataCartItems &&
-            dataCartItems.length > 0 &&
-            dataCartItems.map((item) => {
+          {data &&
+            data.length > 0 &&
+            data.map((item) => {
               return (
                 <div className="cart__item" key={item.id}>
                   <div className="cart__item__left">
-                    <img src={`${item.img}`} alt="" />
+                    <img src={`${item.image}`} alt="" />
                   </div>
                   <div className="cart__item__right">
                     <div className="cart__item__infor">
@@ -50,16 +80,18 @@ function GioHang() {
                       </button>
                     </div>
                     <div>
-                      <p className="cart__item__cost">{item.price}</p>
+                      <p className="cart__item__cost">{convertVND(item.totalPrice)}</p>
                     </div>
                     <div className="cart__item__amount">
-                      <button className="minus__cart__item">-</button>
+                    <button className="minus__cart__item" onClick={()=>changeQuantity(item._id,'minus')}>-</button>
                       <input
-                        type="text"
-                        defaultValue="1"
+                        type="number"
+                        value={item.quantity}
+                        min={1}
+                        max={99}
                         className="cart__item__amountinput"
                       />
-                      <button className="add__cart__item">+</button>
+                      <button className="add__cart__item" onClick={()=>changeQuantity(item._id,'add')}>+</button>
                     </div>
                   </div>
                 </div>
@@ -71,11 +103,11 @@ function GioHang() {
           <div className="cart__content__bottomright">
             <div className="cart__tamtinh">
               <p>Tạm tính:</p>
-              <p className="tamtinh">{calculatePrice()}</p>
+              <p className="tamtinh">{convertVND(calculatePrice())}</p>
             </div>
             <div className="cart__thanhtien">
               <p>Thành tiền:</p>
-              <p className="thanhtien">{calculatePrice()}</p>
+              <p className="thanhtien">{convertVND(calculatePrice())}</p>
             </div>
             <button className="btnthanhtoan">THANH TOÁN NGAY</button>
             <button className="btntieptucmuahang">TIẾP TỤC MUA HANG</button>

@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import * as ApiServices from "../../ApiServices";
@@ -20,7 +19,6 @@ function DSDungCuHocTap() {
   const [state, dispatch] = useStore();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
 
   const fetchData = async () => {
     const data = await ApiServices.productsByNameCategory("Dụng cụ học tập");
@@ -31,13 +29,15 @@ function DSDungCuHocTap() {
   useEffect(() => {
     fetchData();
   }, []);
-  const getItemDT = (data) => {
-    setShowModal(true);
-    dispatch(actions.addCartItem(data));
+  const getItemDT = async(data) => {
+    await dispatch(actions.setShowModal(true));
+    await dispatch(actions.setDataModal(data));
+    await dispatch(
+      actions.addCartItem({ ...data, quantity: 1, totalPrice: data.price })
+    );
   };
-
   return (
-    <div className="listcomic__container">
+    <Container fluid="md" className="listcomic__container">
       <div className="listcomic__top">
         <Link to="#danhsachtruyentranh" className="listcomic__titlelink">
           Dụng cụ học tập
@@ -77,8 +77,7 @@ function DSDungCuHocTap() {
           </Row>
         )}
       </div>
-      {showModal && <Modal setOpenModal={setShowModal} />}
-    </div>
+    </Container>
   );
 }
 

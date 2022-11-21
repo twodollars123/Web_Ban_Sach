@@ -1,42 +1,46 @@
 import classNames from "classnames/bind";
-
+import { useEffect, useState } from "react";
 import styles from "./Modal.module.scss";
-import Button from "../Button/Button";
-import { useStore } from "../../store";
+// import Button from "../Button/Button";
+import { useStore,actions } from "../../store";
+import convertVND from "../../ultis/convertVND";
+
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 const cx = classNames.bind(styles);
 
-function Modal({ setOpenModal }) {
-  const [state] = useStore();
-  const { dataCartItems } = state;
-
+function ModalCustom() {
+  const [state,dispatch] = useStore();
+  const setOpenModal = (show) =>{
+    dispatch(actions.setShowModal(show));
+  }
+  useEffect(() => {
+  }, [state.showModal])
   return (
-    <div className={cx("modal__wrapper")}>
-      <div className={cx("modal")}>
-        <div className={cx("header_modal")}>
-          <h3 className={cx("title_header__modal")}>
-            Sản phẩm vừa thêm vào giỏ
-          </h3>
-          <span className={cx("close_btn")} onClick={() => setOpenModal(false)}>
-            <i className="fa fa-close" />
-          </span>
-        </div>
+    <Modal
+      isOpen={state.showModal}
+      toggle={() => setOpenModal(false)}
+    >
+      <ModalHeader toggle={() => setOpenModal(false)}> Sản phẩm vừa thêm vào giỏ</ModalHeader>
+      <ModalBody>
         <div className={cx("content_modal")}>
-          <img src={`${dataCartItems[dataCartItems.length - 1].img}`} alt="" />
+          <img src={`${state.dataModal?.image}`} alt="" />
           <div className={cx("content_item")}>
-            <p>{dataCartItems[dataCartItems.length - 1].name}</p>
-            <p>{dataCartItems[dataCartItems.length - 1].price}</p>
+            <p>{state.dataModal?.name}</p>
+            <p>{convertVND(parseInt(state.dataModal?.price))}</p>
           </div>
         </div>
+      </ModalBody>
+      <ModalFooter>
         <div className={cx("action_modal")}>
-          <p>Giỏ hàng hiện có {dataCartItems.length}</p>
+          <p>Giỏ hàng hiện có {state.dataCartItems.length}</p>
           <Button sl primary onClick={() => setOpenModal(false)}>
             Tiến hành thanh toán
           </Button>
         </div>
-      </div>
-    </div>
+      </ModalFooter>
+    </Modal>
   );
 }
 
-export default Modal;
+export default ModalCustom;

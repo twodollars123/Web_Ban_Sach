@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./index.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import * as ApiServices from "../../ApiServices/index";
@@ -110,7 +111,11 @@ function Detail() {
                       HẾT HÀNG
                     </Button>
                   ) : (
-                    <Button color="primary" onClick={addToCart}>
+                    <Button
+                      className="addToCart__btn"
+                      color="primary"
+                      onClick={addToCart}
+                    >
                       ĐẶT HÀNG
                     </Button>
                   )}

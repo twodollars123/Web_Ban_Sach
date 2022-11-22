@@ -12,7 +12,6 @@ import ChangePass from "./ChangePass";
 import Order from "./Order";
 
 function Widget(props) {
-  console.log(props)
   let Widget = {
     UserInfo,
     ChangePass,

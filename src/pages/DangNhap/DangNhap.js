@@ -22,7 +22,7 @@ function DangNhap() {
         .then(async(res) => {
           if(res?.jwt&&res?.user){
             localStorage.setItem('token',res.jwt);
-            localStorage.setItem('user',res.user);
+            localStorage.setItem('user',JSON.stringify(res.user));
             dispatch(actions.setAuth(true));
             await notify("success", "Welcome");
             setTimeout(() => {

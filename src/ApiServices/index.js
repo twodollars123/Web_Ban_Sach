@@ -105,3 +105,18 @@ export const userProfile = async () => {
     console.log(error);
   }
 };
+
+export const userOrders = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+    const data = {userID:user?.id}  
+    const headers = {
+      Authorization: "Bearer " + token,
+    };
+    const res = await request.post(`ordersByUser`,data,{ headers });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};

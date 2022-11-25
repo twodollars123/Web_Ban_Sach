@@ -1,0 +1,91 @@
+.table__order {
+  // width: 100%;
+  min-width: 100px;
+  border-spacing: 0;
+  border: 1px solid black;
+  padding: 1rem;
+  tr {
+    :last-child {
+      td {
+        border-bottom: 1px solid black;
+      }
+    }
+  }
+  th,
+  td {
+    margin: 0;
+    padding: 0.5rem;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    min-width: 100px;
+    :last-child {
+      border-right: 0;
+    }
+  }
+  thead {
+    tr {
+      th {
+        position: relative;
+        padding: 50px 0 5px 0;
+        padding-top: 30px;
+        p {
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          font-size: large;
+          margin: 0  auto;
+        }
+        div {
+          display: flex;
+          max-width: 70%;
+          align-items: center;
+        }
+      }
+    }
+    
+  }
+  tbody {
+    td {
+      min-width: 50px;
+      div {
+        .bill__product {
+          display: flex;
+          flex-direction: row;
+          border-bottom: 1px solid black;
+        }
+        :last-child {
+          border: 0;
+        }
+      }
+    }
+  }
+}
+
+.desc {
+  border-top: 5px solid rgb(160, 21, 11);
+}
+.asc {
+  border-bottom: 5px solid rgb(160, 21, 11);
+}
+
+.pagination__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+  gap: 5%;
+  .select__page__size{
+    display: flex;
+    align-items: center;
+    label{
+      width: auto;
+      display: flex;
+      align-items: center;
+      margin: 0;
+    }
+    select{
+      width: fit-content;
+    }
+  }
+}

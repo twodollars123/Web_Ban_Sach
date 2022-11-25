@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 import UserInfo from "./UserInfo";
 import ChangePass from "./ChangePass";
-import Order from "./Order";
+import Order from "./Order/Order";
 
 function Widget(props) {
   let Widget = {

@@ -106,7 +106,7 @@ export const userProfile = async () => {
   }
 };
 
-export const userOrders = async () => {
+export const userOrders = async (page,pageSize) => {
   try {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
@@ -114,7 +114,9 @@ export const userOrders = async () => {
     const headers = {
       Authorization: "Bearer " + token,
     };
-    const res = await request.post(`ordersByUser`,data,{ headers });
+    page = page || 1;
+    pageSize = pageSize || 10; 
+    const res = await request.post(`ordersByUser?page=${page}&pageSize=${pageSize}`,data,{ headers });
     return res;
   } catch (error) {
     console.log(error);

@@ -20,4 +20,9 @@ export const post = async (pathApi, options) => {
   return res.data;
 };
 
+export const put = async (pathApi, options) => {
+  const res = await request.put(pathApi, options);
+  return res.data;
+};
+
 export default request;

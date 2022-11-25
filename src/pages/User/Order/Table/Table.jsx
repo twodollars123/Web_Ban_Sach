@@ -10,7 +10,7 @@ import "./index.scss";
 import { fuzzyTextFilterFn, DefaultColumnFilter } from "../DefaultColumnFilter";
 import Pagination from "./Pagination";
 
-function Table({ columns, data, setData, pagination }) {
+function Table({ columns, data, setPagination, pagination, setData }) {
   const filterTypes = React.useMemo(
     () => ({
       // Add a new fuzzyTextFilterFn filter type.
@@ -91,7 +91,7 @@ function Table({ columns, data, setData, pagination }) {
         })}
       </tbody>
     </table>
-    <Pagination pagination={pagination} setData={setData} />
+    <Pagination pagination={pagination} setPagination={setPagination} setData={setData}/>
     </div>
   );
 }

@@ -9,15 +9,15 @@ import moment from "moment/moment";
 import NumberRangeColumnFilter from "./NumberRangeColumnFilter";
 import SelectColumnFilter from "./SelectColumnFilter";
 
-import { Spinner } from "reactstrap";
+import { Spinner, Button, Input, Label } from "reactstrap";
 
 function Order(props) {
   const [data, setData] = useState([]);
   const [pagination, setPagination] = useState();
   const [loading, setLoading] = useState(true);
 
-  const fetchData = async () => {
-    const data = await ApiService.userOrders();
+  const fetchData = async (page, pageSize) => {
+    const data = await ApiService.userOrders(page, pageSize);
     setData(data.data);
     setPagination(data.pagination);
     setLoading(false);
@@ -26,6 +26,11 @@ function Order(props) {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const updateStatus = async(idOrder,status) => {
+    await ApiService.updateStatusOrder(idOrder,status)
+    await fetchData();
+  }
 
   function MyCellProduct({ value }) {
     return (
@@ -45,7 +50,62 @@ function Order(props) {
   function MyCellCreateAt({ value }) {
     return <span>{moment(value).format("LLL")}</span>;
   }
-
+  function MyCellID({ value }) {
+    return <span className="order__id__prd">{value}</span>;
+  }
+  function MyCellPrice({ value }) {
+    return <span>{covertVND(value)}</span>;
+  }
+  function MyCellStatus(props) {
+    const {value} = props;
+    const idOrder =  props.row.original.id;
+    switch (value) {
+      case "success":
+        return (
+          <Button size="sm" color="success">
+            {value}
+          </Button>
+        );
+      case "cancelled":
+        return (
+          <Button size="sm" color="danger">
+            {value}
+          </Button>
+        );
+      case "success":
+        return (
+          <Button size="sm" color="success">
+            {value}
+          </Button>
+        );
+      case "pendding":
+        return (
+          <>
+            <Button size="sm" color="warning">
+              {value}
+            </Button>
+            <Input type="select" bsSize="sm" onChange={(e)=>updateStatus(idOrder,e.target.value)}>
+              <option>🎩</option>
+              <option >cancelled</option>
+              <option >success</option>
+            </Input>
+          </>
+        );
+      case "delivering":
+        return (
+          <>
+            <Button size="sm" color="primary">
+              {value}
+            </Button>
+            <Input type="select" bsSize="sm" onChange={(e)=>updateStatus(idOrder,e.target.value)}>
+              <option>🎩</option>
+              <option >cancelled</option>
+              <option >success</option>
+            </Input>
+          </>
+        );
+    }
+  }
   const columns = React.useMemo(
     () => [
       {
@@ -53,6 +113,7 @@ function Order(props) {
         accessor: "id",
         filter: "fuzzyText",
         disableSortBy: true,
+        Cell: MyCellID,
       },
       {
         Header: "Bill",
@@ -65,6 +126,7 @@ function Order(props) {
         Header: "Total Price",
         accessor: "price",
         Filter: NumberRangeColumnFilter,
+        Cell: MyCellPrice,
         filter: "between",
         disableSortBy: true,
       },
@@ -85,6 +147,7 @@ function Order(props) {
         Header: "Status",
         accessor: "status",
         Filter: SelectColumnFilter,
+        Cell: MyCellStatus,
         filter: "includes",
         disableSortBy: true,
       },
@@ -99,7 +162,13 @@ function Order(props) {
         <Spinner></Spinner>
       ) : (
         <div>
-          <Table columns={columns} data={data} setData={setData} pagination={pagination} />
+          <Table
+            columns={columns}
+            data={data}
+            setPagination={setPagination}
+            pagination={pagination}
+            setData={setData}
+          />
         </div>
       )}
     </div>

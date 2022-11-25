@@ -28,7 +28,7 @@ function NumberRangeColumnFilter({
           const val = e.target.value
           setFilter((old = []) => [val ? parseInt(val, 10) : undefined, old[1]])
         }}
-        placeholder={`Min (${min})`}
+        // placeholder={`Min (${min})`}
         bsSize='sm'
         style={{
           width: '70px',
@@ -44,7 +44,7 @@ function NumberRangeColumnFilter({
           setFilter((old = []) => [old[0], val ? parseInt(val, 10) : undefined])
         }}
         bsSize='sm'
-        placeholder={`Max (${max})`}
+        // placeholder={`Max (${max})`}
         style={{
           width: '70px',
           marginLeft: '0.5rem',

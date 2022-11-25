@@ -122,3 +122,21 @@ export const userOrders = async (page,pageSize) => {
     console.log(error);
   }
 };
+
+export const updateStatusOrder = async (id,status) => {
+  try {
+    const token = localStorage.getItem("token");
+    const headers = {
+      Authorization: "Bearer " + token,
+    };
+    let res;
+    if(status=='success'){
+      res = await request.put(`ordersStatusSuccess/${id}`,{ headers });
+    }else if(status=='cancelled'){
+      res = await request.put(`ordersStatusCancel/${id}`,{ headers });
+    }
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};

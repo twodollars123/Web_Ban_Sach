@@ -1,6 +1,13 @@
-.img__bill--prd{
-    max-width: 80px;
+.bill__product{
+    .img__bill--prd{
+        max-width: 80px;
+    }
+    .quantity__price__bill--prd{
+        display: flex;
+        flex-direction: column;
+    }
 }
+
 
 .order__id__prd{
     display: -webkit-box;

@@ -10,6 +10,7 @@ const request = axios.create({
   },
 });
 
+
 export const get = async (pathApi, options = {}) => {
   const res = await request.get(pathApi, options);
   return res.data;
@@ -25,4 +26,4 @@ export const put = async (pathApi, options) => {
   return res.data;
 };
 
-export default request;
+export default request ;

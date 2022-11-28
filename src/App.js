@@ -64,6 +64,7 @@ function App() {
                 </Route>
               );
             })}
+            <Route path="*" element={<div>404</div>}></Route>
           </Routes>
         </div>
       </Router>

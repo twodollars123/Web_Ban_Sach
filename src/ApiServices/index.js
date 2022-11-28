@@ -1,4 +1,6 @@
 import * as request from "../ultis/request";
+import axios from "axios";
+import notify from "../ultis/notify";
 
 export const register = async (data) => {
   try {
@@ -106,37 +108,68 @@ export const userProfile = async () => {
   }
 };
 
-export const userOrders = async (page,pageSize) => {
+export const userOrders = async (page, pageSize) => {
   try {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
-    const data = {userID:user?.id}  
+    const data = { userID: user?.id };
     const headers = {
       Authorization: "Bearer " + token,
     };
     page = page || 1;
-    pageSize = pageSize || 10; 
-    const res = await request.post(`ordersByUser?page=${page}&pageSize=${pageSize}`,data,{ headers });
+    pageSize = pageSize || 10;
+    const res = await request.post(
+      `ordersByUser?page=${page}&pageSize=${pageSize}`,
+      data,
+      { headers }
+    );
     return res;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const updateStatusOrder = async (id,status) => {
+export const updateStatusOrder = async (id, status) => {
   try {
     const token = localStorage.getItem("token");
     const headers = {
       Authorization: "Bearer " + token,
     };
     let res;
-    if(status=='success'){
-      res = await request.put(`ordersStatusSuccess/${id}`,{ headers });
-    }else if(status=='cancelled'){
-      res = await request.put(`ordersStatusCancel/${id}`,{ headers });
+    if (status == "success") {
+      res = await request.get(`ordersStatusSuccess/${id}`, { headers });
+    } else if (status == "cancelled") {
+      res = await request.get(`ordersStatusCancel/${id}`, { headers });
     }
     return res;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const changePass = async (currentPassword,newPassword,confirmNewPassword) => {
+  try {
+    const token = localStorage.getItem("token");
+    const headers = {
+      Authorization: "Bearer " + token,
+    };
+    const data = {
+      currentPassword,
+      newPassword,
+      confirmNewPassword,
+    };
+    const res = await axios({
+      method: 'POST',
+      url: 'http://localhost:1337/custom/change-password',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      data: data
+    })
+    console.log('res',res)
+    return res;
+  } catch (error) {
+    notify('error',error?.response.data.message);
   }
 };

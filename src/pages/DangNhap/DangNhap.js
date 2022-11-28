@@ -3,32 +3,35 @@ import { Link, redirect, useNavigate } from "react-router-dom";
 import * as ApiServices from "../../ApiServices";
 import "./DangNhap.scss";
 import notify from "../../ultis/notify";
-import { useStore,actions } from "../../store";
+import { useStore, actions } from "../../store";
+import { Spinner } from "reactstrap";
 
 function DangNhap() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [emailUser, setEmailUser] = useState(null);
   const [passUser, setPassUser] = useState(null);
 
-  const [state,dispatch] = useStore()
+  const [state, dispatch] = useStore();
 
   const handleLogin = async () => {
+    setLoading(true);
     if (emailUser && passUser) {
       const data = {
         identifier: emailUser,
         password: passUser,
       };
       await ApiServices.login(data)
-        .then(async(res) => {
-          if(res?.jwt&&res?.user){
-            localStorage.setItem('token',res.jwt);
-            localStorage.setItem('user',JSON.stringify(res.user));
+        .then(async (res) => {
+          if (res?.jwt && res?.user) {
+            localStorage.setItem("token", res.jwt);
+            localStorage.setItem("user", JSON.stringify(res.user));
             dispatch(actions.setAuth(true));
             await notify("success", "Welcome");
             setTimeout(() => {
               navigate("../");
             }, 3000);
-          }else{
+          } else {
             notify("error", "Email or Password was wrong");
           }
         })
@@ -38,6 +41,7 @@ function DangNhap() {
     } else {
       notify("error", "You need fill all fields");
     }
+    setLoading(false)
   };
 
   return (
@@ -91,7 +95,9 @@ function DangNhap() {
           <p>Quên mật khẩu?</p>
         </div>
         <div className="login_bot">
-          <button onClick={handleLogin}>Đăng nhập</button>
+          <button onClick={handleLogin}>
+            {loading ? <Spinner /> : "Đăng nhập"}
+          </button>
           <p>
             Nhà sách Tiến Thọ cam kết bảo mật và sẽ không bao giờ đăng hay chia
             sẻ thông tin mà chưa được sự đồng ý của bạn

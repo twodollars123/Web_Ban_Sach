@@ -1,19 +1,27 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import {
   Dropdown,
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
 } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React from "react";
-
 import "./Header.scss";
+import { useStore, actions } from "../../store";
 
 function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen(!dropdownOpen);
   const [dropdownOpenCart, setDropdownOpenCart] = useState(false);
+  const [state, dispatch] = useStore();
+
+  const logout = () => {
+    localStorage.clear();
+    dispatch(actions.setAuth(false));
+    window.location.replace("./");
+  };
+
   return (
     <div className="header_container">
       <div className="header_logo">
@@ -33,22 +41,41 @@ function Header() {
         <p className="phone_number">094.1234.828</p>
       </div>
       <div className="header_actions">
-        <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-          <DropdownToggle className="login_toggle">
-            <i
-              className="fa fa-user-o icon"
-              onClick={() => setDropdownOpen(true)}
-            />
-          </DropdownToggle>
-          <DropdownMenu onClick={() => setDropdownOpen(false)}>
-            <DropdownItem>
-              <Link to="/dangnhap">Đăng nhập</Link>
-            </DropdownItem>
-            <DropdownItem>
-              <Link to="/dangky">Đăng ký</Link>
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+        {state.isAuth ? (
+          <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+            <DropdownToggle className="login_toggle">
+              <i
+                className="fa fa-user-o icon"
+                onClick={() => setDropdownOpen(true)}
+              />
+            </DropdownToggle>
+            <DropdownMenu onClick={() => setDropdownOpen(false)}>
+              <DropdownItem>
+                <Link to={"../user"}>Profile</Link>
+              </DropdownItem>
+              <DropdownItem>
+                <div onClick={logout}>Đăng xuất</div>
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        ) : (
+          <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+            <DropdownToggle className="login_toggle">
+              <i
+                className="fa fa-user-o icon"
+                onClick={() => setDropdownOpen(true)}
+              />
+            </DropdownToggle>
+            <DropdownMenu onClick={() => setDropdownOpen(false)}>
+              <DropdownItem>
+                <Link to="/dangnhap">Đăng nhập</Link>
+              </DropdownItem>
+              <DropdownItem>
+                <Link to="/dangky">Đăng ký</Link>
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        )}
 
         <Dropdown isOpen={dropdownOpenCart}>
           <DropdownToggle className="login_toggle">

@@ -10,6 +10,7 @@ import NumberRangeColumnFilter from "./NumberRangeColumnFilter";
 import SelectColumnFilter from "./SelectColumnFilter";
 
 import { Spinner, Button, Input, Label } from "reactstrap";
+import convertVND from "../../../ultis/convertVND";
 
 function Order(props) {
   const [data, setData] = useState([]);
@@ -27,10 +28,10 @@ function Order(props) {
     fetchData();
   }, []);
 
-  const updateStatus = async(idOrder,status) => {
-    await ApiService.updateStatusOrder(idOrder,status)
+  const updateStatus = async (idOrder, status) => {
+    await ApiService.updateStatusOrder(idOrder, status);
     await fetchData();
-  }
+  };
 
   function MyCellProduct({ value }) {
     return (
@@ -41,8 +42,10 @@ function Order(props) {
           <div>
             <img src={item.product.image} alt="" className="img__bill--prd" />
           </div>
-          <div>{item.quantity}</div>
-          <div>{item.quantity * parseInt(item.product.price)}</div>
+          <div className="quantity__price__bill--prd">
+          <div>x {item.quantity}</div>
+          <div>= {convertVND(item.quantity * parseInt(item.product.price))}</div>
+          </div>
         </div>
       ))
     );
@@ -57,8 +60,8 @@ function Order(props) {
     return <span>{covertVND(value)}</span>;
   }
   function MyCellStatus(props) {
-    const {value} = props;
-    const idOrder =  props.row.original.id;
+    const { value } = props;
+    const idOrder = props.row.original.id;
     switch (value) {
       case "success":
         return (
@@ -84,10 +87,14 @@ function Order(props) {
             <Button size="sm" color="warning">
               {value}
             </Button>
-            <Input type="select" bsSize="sm" onChange={(e)=>updateStatus(idOrder,e.target.value)}>
+            <Input
+              type="select"
+              bsSize="sm"
+              onChange={(e) => updateStatus(idOrder, e.target.value)}
+            >
               <option>🎩</option>
-              <option >cancelled</option>
-              <option >success</option>
+              <option>cancelled</option>
+              <option>success</option>
             </Input>
           </>
         );
@@ -97,11 +104,6 @@ function Order(props) {
             <Button size="sm" color="primary">
               {value}
             </Button>
-            <Input type="select" bsSize="sm" onChange={(e)=>updateStatus(idOrder,e.target.value)}>
-              <option>🎩</option>
-              <option >cancelled</option>
-              <option >success</option>
-            </Input>
           </>
         );
     }

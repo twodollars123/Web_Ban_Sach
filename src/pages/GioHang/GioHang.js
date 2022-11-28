@@ -1,12 +1,13 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from "react";
 import "./GioHang.scss";
 import { useStore, actions } from "../../store";
-import convertVND from '../../ultis/convertVND';
+import convertVND from "../../ultis/convertVND";
+import { Link } from "react-router-dom";
 
 function GioHang() {
   const [state, dispatch] = useStore();
   const { dataCartItems } = state;
-  const [data, setData] = useState(dataCartItems)
+  const [data, setData] = useState(dataCartItems);
 
   const handleRemoveCartItem = (itemId) => {
     const newDataCartItems = [...dataCartItems];
@@ -26,33 +27,32 @@ function GioHang() {
     return total;
   };
 
-  const changeQuantity = (id,mode) => {
-    switch(mode){
-      case 'minus' :
+  const changeQuantity = (id, mode) => {
+    switch (mode) {
+      case "minus":
         dataCartItems.map((item) => {
-          if(item.id === id){
-            if(!(item.quantity == 1)){
+          if (item.id === id) {
+            if (!(item.quantity == 1)) {
               item.quantity = parseInt(item.quantity) - 1;
               item.totalPrice = parseInt(item.quantity) * parseInt(item.price);
             }
           }
-        })
+        });
         break;
-      case 'add' :
+      case "add":
         dataCartItems.map((item) => {
-          if(item.id === id){
+          if (item.id === id) {
             item.quantity = parseInt(item.quantity) + 1;
             item.totalPrice = parseInt(item.quantity) * parseInt(item.price);
           }
-        })
+        });
         break;
     }
-    setData(dataCartItems)
-    dispatch(actions.setCartItem(dataCartItems))
-  }
-  useEffect(() => {
-  }, [dataCartItems])
-  
+    setData(dataCartItems);
+    dispatch(actions.setCartItem(dataCartItems));
+  };
+  useEffect(() => {}, [dataCartItems]);
+
   return (
     <div className="cart__container">
       <div className="cart__content">
@@ -80,10 +80,17 @@ function GioHang() {
                       </button>
                     </div>
                     <div>
-                      <p className="cart__item__cost">{convertVND(item.totalPrice)}</p>
+                      <p className="cart__item__cost">
+                        {convertVND(item.totalPrice)}
+                      </p>
                     </div>
                     <div className="cart__item__amount">
-                    <button className="minus__cart__item" onClick={()=>changeQuantity(item._id,'minus')}>-</button>
+                      <button
+                        className="minus__cart__item"
+                        onClick={() => changeQuantity(item._id, "minus")}
+                      >
+                        -
+                      </button>
                       <input
                         type="number"
                         value={item.quantity}
@@ -91,7 +98,12 @@ function GioHang() {
                         max={99}
                         className="cart__item__amountinput"
                       />
-                      <button className="add__cart__item" onClick={()=>changeQuantity(item._id,'add')}>+</button>
+                      <button
+                        className="add__cart__item"
+                        onClick={() => changeQuantity(item._id, "add")}
+                      >
+                        +
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -109,8 +121,8 @@ function GioHang() {
               <p>Thành tiền:</p>
               <p className="thanhtien">{convertVND(calculatePrice())}</p>
             </div>
-            <button className="btnthanhtoan">THANH TOÁN NGAY</button>
-            <button className="btntieptucmuahang">TIẾP TỤC MUA HANG</button>
+              <Link to={"../payment"} className={'btnthanhtoan'}>THANH TOÁN NGAY</Link>
+              <Link to={"../"} className='btntieptucmuahang'>TIẾP TỤC MUA HANG</Link>
           </div>
         </div>
       </div>

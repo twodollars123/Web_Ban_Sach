@@ -6,6 +6,7 @@ import { useStore,actions } from "../../store";
 import convertVND from "../../ultis/convertVND";
 
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -34,7 +35,7 @@ function ModalCustom() {
       <ModalFooter>
         <div className={cx("action_modal")}>
           <p>Giỏ hàng hiện có {state.dataCartItems.length}</p>
-          <Button sl primary onClick={() => setOpenModal(false)}>
+          <Button href="../payment" sl primary>
             Tiến hành thanh toán
           </Button>
         </div>

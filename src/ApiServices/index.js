@@ -7,7 +7,11 @@ export const register = async (data) => {
     const res = await request.post("/auth/local/register", data);
     return res;
   } catch (error) {
-    console.log(error);
+    const res = {
+      status: error?.response?.status,
+      message: error?.response?.data.message[0].messages[0].message,
+    };
+    return res;
   }
 };
 
@@ -147,7 +151,11 @@ export const updateStatusOrder = async (id, status) => {
   }
 };
 
-export const changePass = async (currentPassword,newPassword,confirmNewPassword) => {
+export const changePass = async (
+  currentPassword,
+  newPassword,
+  confirmNewPassword
+) => {
   try {
     const token = localStorage.getItem("token");
     const headers = {
@@ -159,17 +167,27 @@ export const changePass = async (currentPassword,newPassword,confirmNewPassword)
       confirmNewPassword,
     };
     const res = await axios({
-      method: 'POST',
-      url: 'http://localhost:1337/custom/change-password',
+      method: "POST",
+      url: "http://localhost:1337/custom/change-password",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-      data: data
-    })
-    console.log('res',res)
+      data: data,
+    });
+    console.log("res", res);
     return res;
   } catch (error) {
-    notify('error',error?.response.data.message);
+    notify("error", error?.response.data.message);
+  }
+};
+
+export const createOrder = async (data) => {
+  console.log(data);
+  try {
+    const res = await request.post(`orders`, data);
+    return res;
+  } catch (error) {
+    console.log(error);
   }
 };

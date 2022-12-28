@@ -11,6 +11,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useStore, actions } from "./store";
 import ModalCustom from "./components/Modal/Modal";
 
+import Page404 from "./pages/404";
+
 function App() {
   const [state, dispatch] = useStore();
   const fetchApi = async () => {
@@ -64,7 +66,7 @@ function App() {
                 </Route>
               );
             })}
-            <Route path="*" element={<div>404</div>}></Route>
+            <Route path="*" element={<Page404/>}></Route>
           </Routes>
         </div>
       </Router>

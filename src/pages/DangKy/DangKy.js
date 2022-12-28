@@ -14,20 +14,20 @@ function Dangky() {
   const handleRegister = async () => {
     if (repass === pass && email && name) {
       let newAccount = {
+        username:email,
         name: name,
         email: email,
         password: pass,
       };
-      await ApiServices.register(newAccount)
-        .then(() => {
-          notify("success", "Success");
-          setTimeout(() => {
-            navigate("../dangnhap");
-          }, 3000);
-        })
-        .catch((err) => {
-          console.log("err", err);
-        });
+      const res = await ApiServices.register(newAccount);
+      if (!res?.jwt) {
+        notify("error", res?.message);
+      } else {
+        notify("success", "Success");
+        setTimeout(() => {
+          navigate("../dangnhap");
+        }, 3000);
+      }
     } else {
       notify("error", "Something was wrong!");
     }

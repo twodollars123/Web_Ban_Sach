@@ -21,6 +21,7 @@ function PaginationReactstrap({ pagination, setPagination, setData }) {
 
   const fetch = async () => {
     const data = await ApiService.userOrders(page, pageSize);
+    console.log(data)
     setData(data.data);
     setPagination(data.pagination)
     setTotalPage(data.pagination.totalPage)

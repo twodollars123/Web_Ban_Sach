@@ -121,8 +121,12 @@ function GioHang() {
               <p>Thành tiền:</p>
               <p className="thanhtien">{convertVND(calculatePrice())}</p>
             </div>
-              <Link to={"../payment"} className={'btnthanhtoan'}>THANH TOÁN NGAY</Link>
-              <Link to={"../"} className='btntieptucmuahang'>TIẾP TỤC MUA HANG</Link>
+            <Link to={"../payment"} className={"btnthanhtoan"}>
+              THANH TOÁN NGAY
+            </Link>
+            <Link to={"../"} className="btntieptucmuahang">
+              TIẾP TỤC MUA HANG
+            </Link>
           </div>
         </div>
       </div>

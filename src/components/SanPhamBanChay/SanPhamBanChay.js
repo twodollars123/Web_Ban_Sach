@@ -28,7 +28,7 @@ function SanPhamBanChay() {
   useEffect(() => {
     fetchData();
   }, []);
-  const getItemDT = async(data) => {
+  const getItemDT = async (data) => {
     await dispatch(actions.setShowModal(true));
     await dispatch(actions.setDataModal(data));
     await dispatch(
@@ -48,29 +48,28 @@ function SanPhamBanChay() {
             {data &&
               data.map((prd) => (
                 <Col key={prd.id}>
-                  <Link to={`../product/${prd.id}`}>
                   {/* ../product/${prd._id} */}
-                    <Card className="card__prd">
-                      <img alt="Sample" src={prd.image} />
-                      <CardBody>
-                        <CardTitle tag="h6" className="card__title">
-                          {prd.name}
-                        </CardTitle>
-                        <CardSubtitle className="mb-2 text-muted" tag="h6">
-                          {convertVND(prd.price)}
-                        </CardSubtitle>
-                        
-                      </CardBody>
-                      <div className="card__action">
-                          <span>
-                            <i className="fa fa-shopping-basket" />
-                          </span>
-                          <span onClick={() => getItemDT(prd)}>
-                            <i className="fa fa-shopping-cart" />
-                          </span>
-                        </div>
-                    </Card>
-                  </Link>
+                  <Card className="card__prd">
+                    <img alt="Sample" src={prd.image} />
+                    <CardBody>
+                      <CardTitle tag="h6" className="card__title">
+                        {prd.name}
+                      </CardTitle>
+                      <CardSubtitle className="mb-2 text-muted" tag="h6">
+                        {convertVND(prd.price)}
+                      </CardSubtitle>
+                    </CardBody>
+                    <div className="card__action">
+                      <span>
+                        <Link to={`../product/${prd.id}`} className='text-dark'>
+                        <img src="https://img.icons8.com/ios/20/null/search--v1.png"/>
+                        </Link>
+                      </span>
+                      <span onClick={() => getItemDT(prd)}>
+                        <i className="fa fa-shopping-cart" />
+                      </span>
+                    </div>
+                  </Card>
                 </Col>
               ))}
           </Row>

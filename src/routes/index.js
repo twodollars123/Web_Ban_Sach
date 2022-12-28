@@ -6,6 +6,9 @@ import Category from "../pages/Category";
 import Payment from "../pages/Payment";
 import User from "../pages/User";
 import Detail from "../pages/Detail";
+import ThankYou from "../pages/ThankYou";
+import Introduce from "../pages/Introduce";
+import Contact from "../pages/Contact";
 
 const publicRoutes = [
   { path: "/", component: TrangChu },
@@ -16,6 +19,9 @@ const publicRoutes = [
   { path: "/product", component: Detail, param:'idPrd' },
   { path: "/payment", component: Payment },
   { path: "/user", component: User, param:'idUser' },
+  { path: "/gioithieu", component: Introduce,},
+  { path: "/lienhe", component: Contact,},
+  { path: "/thankyou", component: ThankYou,},
 ];
 
 export { publicRoutes };

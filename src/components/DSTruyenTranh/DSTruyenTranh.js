@@ -55,7 +55,7 @@ function DSTruyenTranh() {
             {data &&
               data.map((prd) => (
                 <Col key={prd.id}>
-                  <Link to={`../product/${prd.id}`}>
+                  
                     <Card className="card__prd">
                       <img alt="Sample" src={prd.image} />
                       <CardBody>
@@ -66,16 +66,18 @@ function DSTruyenTranh() {
                           {convertVND(prd.price)}
                         </CardSubtitle>
                         <div className="card__action">
-                          <span>
-                            <i className="fa fa-shopping-basket" />
-                          </span>
+                        <span>
+                        <Link to={`../product/${prd.id}`} className='text-dark'>
+                        <img src="https://img.icons8.com/ios/20/null/search--v1.png"/>
+                        </Link>
+                      </span>
                           <span onClick={() => getItemDT(prd)}>
                             <i className="fa fa-shopping-cart" />
                           </span>
                         </div>
                       </CardBody>
                     </Card>
-                  </Link>
+                  
                 </Col>
               ))}
           </Row>

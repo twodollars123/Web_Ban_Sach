@@ -9,19 +9,22 @@ import Detail from "../pages/Detail";
 import ThankYou from "../pages/ThankYou";
 import Introduce from "../pages/Introduce";
 import Contact from "../pages/Contact";
+import Updating from "../pages/Upadateing";
 
 const publicRoutes = [
   { path: "/", component: TrangChu },
   { path: "/dangnhap", component: DangNhap },
   { path: "/dangky", component: Dangky },
   { path: "/giohang", component: GioHang },
-  { path: "/category", component: Category, param:'idCategory' },
-  { path: "/product", component: Detail, param:'idPrd' },
+  { path: "/category", component: Category, param: "idCategory" },
+  { path: "/product", component: Detail, param: "idPrd" },
   { path: "/payment", component: Payment },
-  { path: "/user", component: User, param:'idUser' },
-  { path: "/gioithieu", component: Introduce,},
-  { path: "/lienhe", component: Contact,},
-  { path: "/thankyou", component: ThankYou,},
+  { path: "/user", component: User, param: "idUser" },
+  { path: "/gioithieu", component: Introduce },
+  { path: "/lienhe", component: Contact },
+  { path: "/tuyendung", component: Updating },
+  { path: "/thankyou", component: ThankYou },
+  { path: "/tuvanmuasam", component: Updating },
 ];
 
 export { publicRoutes };
